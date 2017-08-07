@@ -5,8 +5,21 @@
 			"name": "Debug check_db",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceRoot}/bin/check_db",
-			"args": [],
+			"program": "${workspaceRoot}/src/check_db",
+			"args": [
+				//"-M",
+				"-d",
+				"/Users/seyedits/work/analysis/k2/1280_k2_limited/database.kdb",
+				"-i",
+				"/Users/seyedits/work/analysis/k2/1280_k2_limited/database.idx",
+				"-n",
+				"/Users/seyedits/work/analysis/k2/1280_k2_limited/taxonomy/nodes.dmp",
+				"-m",
+				"/Users/seyedits/work/analysis/k2/1280_k2_limited/seqid2taxid.map",
+				"-F",
+				"/Users/seyedits/work/analysis/k2/1280_k2_limited/sample_lib.fna"
+
+			],
 			"stopAtEntry": false,
 			// MAKE THE CODE BEFORE RUNNING IT
 			"preLaunchTask": "make check_db",

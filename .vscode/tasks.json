@@ -20,6 +20,8 @@
 				"-Wall",
 				"-O3",
 				"-g",
+				"-o",
+				"check_db",
 				"krakendb.o",
 				"quickfile.o", 
 				"krakenutil.o", 

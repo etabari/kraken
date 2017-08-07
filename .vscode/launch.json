@@ -1,24 +1,18 @@
 {
 	"version": "0.2.0",
 	"configurations": [
-		{ 
-			"name": "(lldb) Attach",
-			"type": "cppdbg",
-			"request": "attach",
-			"program": "${workspaceRoot}/bin/check_db",
-			"processId": "${command:pickProcess}",
-			"MIMode": "lldb"
-		},
 		{
-			"name": "(lldb) Launch",
+			"name": "Debug check_db",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceRoot}/bin/check_db",
 			"args": [],
 			"stopAtEntry": false,
+			// MAKE THE CODE BEFORE RUNNING IT
+			"preLaunchTask": "make check_db",
 			"cwd": "${workspaceRoot}",
 			"environment": [],
-			"externalConsole": true,
+			"externalConsole": false,
 			"MIMode": "lldb"
 		}
 	]

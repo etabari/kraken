@@ -6,7 +6,7 @@ PROGS = db_sort set_lcas classify make_seqid_to_taxid_map db_shrink check_db
 .PHONY: all install clean
 
 all: $(PROGS)
-
+	mv $(PROGS) ../bin
 install: $(PROGS)
 	cp $(PROGS) $(KRAKEN_DIR)/
 

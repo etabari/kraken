@@ -33,7 +33,7 @@
 #include <fstream>
 #include <iostream>
 #include <map>
-#include <omp.h>
+// #include <omp.h>
 #include <set>
 #include <sstream>
 #include <stdint.h>

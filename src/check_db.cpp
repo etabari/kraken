@@ -53,9 +53,10 @@ int main(int argc, char **argv)
 #endif
 
 	parse_command_line(argc, argv);
-	Parent_map = build_parent_map(Nodes_filename);
+ 	Parent_map = build_parent_map(Nodes_filename);
 
-	QuickFile db_file(DB_filename, "rw");
+
+ 	QuickFile db_file(DB_filename, "rw");
 	Database = KrakenDB(db_file.ptr());
 	KmerScanner::set_k(Database.get_k());
 
@@ -194,7 +195,8 @@ void set_lcas(uint32_t taxid, string &seq, size_t start, size_t finish)
 			else
 				continue;
 		}
-		*val_ptr = lca(Parent_map, taxid, *val_ptr);
+		cerr << *kmer_ptr << ':' << *val_ptr << endl;
+		// *val_ptr = lca(Parent_map, taxid, *val_ptr);
 	}
 }
 

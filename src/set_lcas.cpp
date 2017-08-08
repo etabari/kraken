@@ -41,6 +41,7 @@ string DB_filename, Index_filename, Nodes_filename,
   ID_to_taxon_map_filename, Multi_fasta_filename;
 bool Allow_extra_kmers = false;
 bool Operate_in_RAM = false;
+bool Verbose = false;
 bool One_FASTA_file = false;
 map<uint32_t, uint32_t> Parent_map;
 map<string, uint32_t> ID_to_taxon_map;
@@ -171,16 +172,18 @@ void set_lcas(uint32_t taxid, string &seq, size_t start, size_t finish) {
   while ((kmer_ptr = scanner.next_kmer()) != NULL) {
     if (scanner.ambig_kmer())
       continue;
-    val_ptr = Database.kmer_query(
-                Database.canonical_representation(*kmer_ptr)
-              );
-    if (val_ptr == NULL) {
+	uint64_t kmer_can = Database.canonical_representation(*kmer_ptr);
+	val_ptr = Database.kmer_query(kmer_can);
+	if (val_ptr == NULL) {
       if (! Allow_extra_kmers)
         errx(EX_DATAERR, "kmer found in sequence that is not in database");
       else
         continue;
     }
-    *val_ptr = lca(Parent_map, taxid, *val_ptr);
+	uint32_t new_val = lca(Parent_map, taxid, *val_ptr);
+	if (Verbose)
+		cerr << kmer_can << ':' << taxid << '+' << *val_ptr << '=' << new_val << '\n';
+	*val_ptr = new_val;
   }
 }
 
@@ -227,7 +230,10 @@ void parse_command_line(int argc, char **argv) {
       case 'M' :
         Operate_in_RAM = true;
         break;
-      default:
+	  case 'v':
+		  Verbose = true;
+		  break;
+	  default:
         usage();
         break;
     }
@@ -247,21 +253,22 @@ void parse_command_line(int argc, char **argv) {
 }
 
 void usage(int exit_code) {
-  cerr << "Usage: set_lcas [options]" << endl
-       << endl
-       << "Options: (*mandatory)" << endl
-       << "* -d filename      Kraken DB filename" << endl
-       << "* -i filename      Kraken DB index filename" << endl
-       << "* -n filename      NCBI Taxonomy nodes file" << endl
-       << "  -t #             Number of threads" << endl
-       << "  -M               Copy DB to RAM during operation" << endl
-       << "  -x               K-mers not found in DB do not cause errors" << endl
-       << "  -f filename      File to taxon map" << endl
-       << "  -F filename      Multi-FASTA file with sequence data" << endl
-       << "  -m filename      Sequence ID to taxon map" << endl
-       << "  -h               Print this message" << endl
-       << endl
-       << "-F and -m must be specified together.  If -f is given, "
-       << "-F/-m are ignored." << endl;
-  exit(exit_code);
+	cerr << "Usage: set_lcas [options]" << endl
+		 << endl
+		 << "Options: (*mandatory)" << endl
+		 << "* -d filename      Kraken DB filename" << endl
+		 << "* -i filename      Kraken DB index filename" << endl
+		 << "* -n filename      NCBI Taxonomy nodes file" << endl
+		 << "  -t #             Number of threads" << endl
+		 << "  -M               Copy DB to RAM during operation" << endl
+		 << "  -x               K-mers not found in DB do not cause errors" << endl
+		 << "  -f filename      File to taxon map" << endl
+		 << "  -F filename      Multi-FASTA file with sequence data" << endl
+		 << "  -m filename      Sequence ID to taxon map" << endl
+		 << "  -h               Print this message" << endl
+		 << "  -v               Verbose" << endl
+		 << endl
+		 << "-F and -m must be specified together.  If -f is given, "
+		 << "-F/-m are ignored." << endl;
+	exit(exit_code);
 }

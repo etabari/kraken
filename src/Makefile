@@ -1,12 +1,13 @@
 CXX = g++
-# CXXFLAGS = -Wall -fopenmp -O3
-CXXFLAGS = -Wall -O3 -g
+#CXXFLAGS = -Wall -fopenmp -O3
+##CXXFLAGS = -Wall -O3 -g
+CXXFLAGS = -Wall -O3
 PROGS = db_sort set_lcas classify make_seqid_to_taxid_map db_shrink check_db
 
 .PHONY: all install clean
 
 all: $(PROGS)
-	mv $(PROGS) ../bin
+	mv $(PROGS) ../scripts
 install: $(PROGS)
 	cp $(PROGS) $(KRAKEN_DIR)/
 

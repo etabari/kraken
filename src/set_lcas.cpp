@@ -182,7 +182,7 @@ void set_lcas(uint32_t taxid, string &seq, size_t start, size_t finish) {
     }
 	uint32_t new_val = lca(Parent_map, taxid, *val_ptr);
 	if (Verbose)
-		cerr << kmer_can << ':' << taxid << '+' << *val_ptr << '=' << new_val << '\n';
+		cout << kmer_can << '\t' << taxid << '\t' << *val_ptr << '\t' << new_val << '\n';
 	*val_ptr = new_val;
   }
 }

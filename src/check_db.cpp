@@ -195,7 +195,7 @@ void set_lcas(uint32_t taxid, string &seq, size_t start, size_t finish)
 			else
 				continue;
 		}
-		cerr << *kmer_ptr << ':' << *val_ptr << endl;
+		cout << *kmer_ptr << '\t' << *val_ptr << endl;
 		// *val_ptr = lca(Parent_map, taxid, *val_ptr);
 	}
 }

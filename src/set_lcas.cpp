@@ -193,7 +193,7 @@ void parse_command_line(int argc, char **argv) {
 
   if (argc > 1 && strcmp(argv[1], "-h") == 0)
     usage(0);
-  while ((opt = getopt(argc, argv, "f:d:i:t:n:m:F:xM")) != -1) {
+  while ((opt = getopt(argc, argv, "f:d:i:t:n:m:F:xMv")) != -1) {
     switch (opt) {
       case 'f' :
         File_to_taxon_map_filename = optarg;

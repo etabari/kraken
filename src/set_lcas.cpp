@@ -47,6 +47,8 @@ map<uint32_t, uint32_t> Parent_map;
 map<string, uint32_t> ID_to_taxon_map;
 KrakenDB Database;
 
+uint32_t prev_a = 0, prev_b = 0, prev_c = 0;
+
 int main(int argc, char **argv) {
   #ifdef _OPENMP
   omp_set_num_threads(1);
@@ -154,7 +156,6 @@ void process_files() {
 void process_file(string filename, uint32_t taxid) {
   FastaReader reader(filename);
   DNASequence dna;
-  
   // For the purposes of this program, we assume these files are
   // single-fasta files.
   dna = reader.next_sequence();
@@ -181,8 +182,14 @@ void set_lcas(uint32_t taxid, string &seq, size_t start, size_t finish) {
         continue;
     }
 	uint32_t new_val = lca(Parent_map, taxid, *val_ptr);
-	if (Verbose)
-		cout << kmer_can << '\t' << taxid << '\t' << *val_ptr << '\t' << new_val << '\n';
+	if (Verbose) {
+		if (prev_a != taxid || prev_b != *val_ptr || prev_c != new_val) {
+			cout << taxid << '\t' << *val_ptr << '\t' << new_val << '\n';
+			prev_a = taxid;
+			prev_b = *val_ptr;
+			prev_c = new_val;
+		}
+	}
 	*val_ptr = new_val;
   }
 }
